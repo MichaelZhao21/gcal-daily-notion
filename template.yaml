@@ -4,5 +4,5 @@ Resources:
   GoogleCalendarDailyFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: app.lambda_handler
+      Handler: app.handler
       Runtime: nodejs16.x
