@@ -2,5 +2,15 @@
   "name": "google-calendar-daily-notion",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "auth": "node auth.js",
+    "dev": "node test.js"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.0.0",
+    "dayjs": "^1.11.3",
+    "dotenv": "^16.0.1",
+    "googleapis": "^105.0.0"
+  }
 }
