@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "auth": "node auth.js",
-    "dev": "node test.js"
+    "dev": "node test.js",
+    "postbuild": "cp *.json .aws-sam/build/GoogleCalendarDailyFunction/ && cp .env .aws-sam/build/GoogleCalendarDailyFunction/"
   },
   "dependencies": {
     "@notionhq/client": "^2.0.0",
