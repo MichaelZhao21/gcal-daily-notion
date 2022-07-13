@@ -119,6 +119,9 @@ function processEventTime(start, end) {
  * @param {object[]} events List of generated events
  */
 async function updateNotionDb(events) {
+    // Load emojis
+    const emojis = JSON.parse(fs.readFileSync('emojis.json'));
+
     // Remove all pages from the database
     const res = await notion.databases.query({
         database_id: process.env.NOTION_DB_ID,
@@ -150,6 +153,10 @@ async function updateNotionDb(events) {
             parent: {
                 type: 'database_id',
                 database_id: process.env.NOTION_DB_ID,
+            },
+            icon: {
+                type: 'emoji',
+                emoji: randomEmoji(emojis),
             },
             properties: {
                 Name: {
@@ -193,6 +200,10 @@ function formatDueDate(eventObj) {
     }
 
     return `${eventObj.startFormatted} - ${eventObj.endFormatted}`;
+}
+
+function randomEmoji(emojis) {
+    return emojis.emojis[Math.floor(Math.random() * emojis.emojis.length)];
 }
 
 exports.handler = async (event, context, callback) => {
