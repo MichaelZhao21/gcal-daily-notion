@@ -61,8 +61,8 @@ async function getEvents(auth) {
         filteredCalList.map(async (currCal) => {
             const eventRes = await calendar.events.list({
                 calendarId: currCal.id,
-                timeMin: dayjs().startOf('day').toISOString(),
-                timeMax: dayjs().endOf('day').toISOString(),
+                timeMin: dayjs().tz(process.env.TIMEZONE).startOf('day').toISOString(),
+                timeMax: dayjs().tz(process.env.TIMEZONE).endOf('day').toISOString(),
                 singleEvents: true,
                 orderBy: 'startTime',
             });
@@ -95,8 +95,8 @@ function processEventTime(start, end) {
     if ('dateTime' in start) {
         const dstart = dayjs(start.dateTime).tz(process.env.TIMEZONE);
         const dend = dayjs(end.dateTime).tz(process.env.TIMEZONE);
-        const startsBefore = !dstart.isSame(dayjs(), 'day');
-        const endsAfter = !dend.isSame(dayjs(), 'day');
+        const startsBefore = !dstart.isSame(dayjs().tz(process.env.TIMEZONE), 'day');
+        const endsAfter = !dend.isSame(dayjs().tz(process.env.TIMEZONE), 'day');
 
         return {
             allDay: startsBefore && endsAfter,
@@ -110,7 +110,6 @@ function processEventTime(start, end) {
     }
     return {
         allDay: true,
-        currDate: dayjs().toISOString(),
     };
 }
 
