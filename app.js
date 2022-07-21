@@ -149,40 +149,44 @@ async function updateNotionDb(events) {
         };
         if (events[i].allDay) dateObj = {};
 
-        await notion.pages.create({
-            parent: {
-                type: 'database_id',
-                database_id: process.env.NOTION_DB_ID,
-            },
-            icon: {
-                type: 'emoji',
-                emoji: randomEmoji(emojis),
-            },
-            properties: {
-                Name: {
-                    title: [{ text: { content: events[i].name } }],
+        try {
+            await notion.pages.create({
+                parent: {
+                    type: 'database_id',
+                    database_id: process.env.NOTION_DB_ID,
                 },
-                Description: {
-                    rich_text: [{ text: { content: events[i].description || '' } }],
+                icon: {
+                    type: 'emoji',
+                    emoji: randomEmoji(emojis),
                 },
-                Location: {
-                    rich_text: [{ text: { content: events[i].location || '' } }],
+                properties: {
+                    Name: {
+                        title: [{ text: { content: events[i].name } }],
+                    },
+                    Description: {
+                        rich_text: [{ text: { content: events[i].description || '' } }],
+                    },
+                    Location: {
+                        rich_text: [{ text: { content: events[i].location || '' } }],
+                    },
+                    Calendar: {
+                        rich_text: [{ text: { content: events[i].cal } }],
+                    },
+                    'Display Date': {
+                        rich_text: [{ text: { content: formatDueDate(events[i]) } }],
+                    },
+                    'All Day': {
+                        checkbox: events[i].allDay,
+                    },
+                    Link: {
+                        url: events[i].link,
+                    },
+                    ...dateObj,
                 },
-                Calendar: {
-                    rich_text: [{ text: { content: events[i].cal } }],
-                },
-                'Display Date': {
-                    rich_text: [{ text: { content: formatDueDate(events[i]) } }],
-                },
-                'All Day': {
-                    checkbox: events[i].allDay,
-                },
-                Link: {
-                    url: events[i].link,
-                },
-                ...dateObj,
-            },
-        });
+            });
+        } catch (err) {
+            console.error(err);
+        }
         console.log('Added', events[i].name, 'to the database');
     }
 }
