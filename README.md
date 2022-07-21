@@ -49,3 +49,7 @@ The integration will only work with ONE database, so you simply need to create a
 * All Day [Checkbox] - Checkbox for sorting all day events to the top
 
 Make sure all properties are spelled correctly and have the correct types or the function **will not work**!
+
+## Build
+
+You must have [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html) installed. To build the app, configure all above correctly and run `sam build`. To copy over the required JSON files, run `yarn postbuild`. Then, you can deploy the lambda function with `sam deploy`.
